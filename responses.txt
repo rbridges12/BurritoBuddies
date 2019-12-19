@@ -1,0 +1,27 @@
+Rice, Chicken, Queso, Cheese, Corn, Pico De Gallo, Sour Cream	Julian Wemmie
+Rice, Pinto Beans, Chicken, Queso, Extra Queso, Veggies, Hot Salsa	Julien Cook
+Rice, Black Beans, Tofusada, Queso, Cheese, Mild Salsa	Olivia Barker
+Rice, Black Beans, Steak, Cheese, Lettuce, Corn, Pico De Gallo, Mild Salsa, Sour Cream	Tommy Stevens
+Rice, Black Beans, Chicken, Queso, Cheese, Pico De Gallo, Medium Salsa	chris kim
+Rice, Black Beans, Chicken, Veggies, Cheese, Pico De Gallo, Mild Salsa, Guac	Raymond Yang
+Rice, Tofusada, Veggies, Lettuce, Corn, Pico De Gallo	Mohan Kumar
+Rice, Pinto Beans, Chicken, Veggies, Corn, Pico De Gallo, Medium Salsa, Hot Salsa, Jalapenos, Guac	Nikul Patel
+Rice	alex wang
+Rice, Black Beans, Pinto Beans, Tofusada, Corn, Pico De Gallo, Mild Salsa, Sour Cream	ken wilbur
+Rice, Black Beans, Pinto Beans, Chicken, Steak, Queso, Extra Queso, Veggies, Cheese, Lettuce, Corn, Pico De Gallo, Hot Salsa, Guac, Sour Cream	Wylan Gao
+Rice, Chicken, Carnitas, Queso, Cheese, Lettuce, Hot Salsa	Griffin Hancock
+Rice, Carnitas, Queso, Extra Queso, Veggies, Lettuce, Mild Salsa, Guac	KevinLu
+Rice, Black Beans, Carnitas, Queso, Veggies, Cheese, Corn, Pico De Gallo, Guac	Julia Bernat
+Rice, Black Beans, Chicken, Queso, Extra Queso, Cheese	Emma Grace Shopp
+Rice, Carnitas, Veggies, Pico De Gallo, Hot Salsa, Jalapenos	Mason Carter
+Rice, Black Beans, Chicken, Queso, Cheese, Lettuce, Corn, Pico De Gallo, Medium Salsa, Sour Cream	Erin Netolicky 
+Rice, Black Beans, Steak, Cheese, Corn, Pico De Gallo, Medium Salsa	Nathaniel Nelson
+Rice, Black Beans, Steak, Carnitas, Cheese, Pico De Gallo, Medium Salsa, Guac, Sour Cream	Dylan Philibert
+Rice, Black Beans, Chicken, Cheese, Corn, Pico De Gallo, Mild Salsa, Medium Salsa, Sour Cream	Lorena Tran
+Rice, Chicken	Jared
+Rice, Black Beans, Steak, Queso, Veggies, Corn, Mild Salsa, Sour Cream	Chen-You
+Rice, Black Beans, Chicken, Pico De Gallo, Sour Cream	Ethan D'Alessandro
+Rice, Black Beans, Steak, Cheese, Hot Salsa, Guac	Alexander Nelson
+Rice, Carnitas, Cheese, Pico De Gallo, Guac	Riley Bridges
+Rice, Black Beans, Steak, Cheese, Corn, Medium Salsa	Daniel Song
+Rice, Black Beans, Chicken, Queso, Corn, Mild Salsa, Sour Cream	Kaushik Raghavan
