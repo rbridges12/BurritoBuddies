@@ -122,11 +122,11 @@ def find_top_matches(profiles: list, num_top_matches: int) -> list:
 
 # parse responses from responses.txt (text file containing tab separated values of 2 columns of desired data)
 # returns dictionary {name : order}
-def parse_responses_dict() -> dict:
+def parse_responses_dict(file_name) -> dict:
   response_dict = {}
 
   # open responses.txt in read mode
-  with open("responses.txt", "r") as f:
+  with open(file_name, "r") as f:
     for line in f:
 
       # split each line of file into name and order
@@ -144,10 +144,16 @@ def parse_responses_dict() -> dict:
 
 # convert a dictionary of name, order pairs into a list of profiles
 def dict_to_profiles(dict: dict) -> list:
+
+  # empty list for profiles
   profiles = []
+  
+  # for each name and order, create a new profile and add it to the list
   for name, order in dict.items():
     profile = MatchProfile(name, order)
     profiles.append(profile)
+  
+  # return the list
   return profiles
 
 
@@ -156,47 +162,72 @@ def dict_to_profiles(dict: dict) -> list:
 # response_dict: a dictionary of name: str, order: str pairs
 # returns a dictionary of topping: str, popularity: int pairs
 def count_popularity(response_dict):
+
+  # empty dictionary that defualts to 0 when a new key is called
   counter = defaultdict(int)
+
+  # for each order in the responses
   for order in response_dict.values():
+
+    # for each item in the order, remove whitespace from the ends of order and split it into individual items
     for item in order.strip().split(", "):
+      
+      # increment the items counter
       counter[item] += 1
+  
+  # return the counter defaultdict converted to a normal dict
   return dict(counter)
 
 
 
-def print_best_matches():
-  print("Person 1\t\t\tPerson2\t\t\t% Match")
-  for p1, p2, match_val in find_matches_reverseorder(parse_responses_dict()):
-    print(p1,"\t", p2, "\t", round(match_val*100, ndigits = 2))
+# writes the top 3 results to a file
+def output_results(file_name):
 
-def print_top_3_matches():
-  print("\n\n\n\n")
-  for profile in find_top_matches(dict_to_profiles(parse_responses_dict()), 3):
-    print("%s's top 3 matches:" %profile.get_name())
+  # open the file and write the top 3 to it
+  with open(file_name, mode = 'w') as f:
+    f.write(format_top_3_matches())
+
+
+
+# 
+def format_best_matches():
+  output = ""
+  output += "Person 1\t\t\tPerson2\t\t\t% Match\n"
+  for p1, p2, match_val in find_matches_reverseorder(parse_responses_dict("responses.txt")):
+    output += p1 + "\t" + p2 + "\t" + str(round(match_val*100, ndigits = 2)) + "\n"
+  return output
+
+def format_top_3_matches():
+  output = ""
+  for profile in find_top_matches(dict_to_profiles(parse_responses_dict("responses.txt")), 3):
+    output += "%s's top 3 matches:" % profile.get_name() + "\n"
     matches = profile.get_top_matches()
-    print("\t1:", "%s, %d%% match"%(matches[0][0], round(matches[0][1]*100, ndigits = 1)))
-    print("\t2:", "%s, %d%% match"%(matches[1][0], round(matches[1][1]*100, ndigits = 1)))
-    print("\t3:", "%s, %d%% match"%(matches[2][0], round(matches[2][1]*100, ndigits = 1)))
-    print("\n")
+    output += "\t1:" + "%s, %d%% match"% (matches[0][0], round(matches[0][1]*100, ndigits = 1)) + "\n"
+    output += "\t2:" + "%s, %d%% match"% (matches[1][0], round(matches[1][1]*100, ndigits = 1)) + "\n"
+    output += "\t3:" + "%s, %d%% match"% (matches[2][0], round(matches[2][1]*100, ndigits = 1)) + "\n"
+    output += "\n"
+  return output
 
-def print_best_match():
+def get_best_match():
   matches = []
-  for profile in find_top_matches(dict_to_profiles(parse_responses_dict()), 3):
+  for profile in find_top_matches(dict_to_profiles(parse_responses_dict("responses.txt")), 3):
     top_matches = profile.get_top_matches()
     matches.append((profile.get_name(), top_matches[0][0], round(top_matches[0][1] * 100, ndigits = 1)))
   sorted_matches = sorted(matches, key = lambda x : x[2], reverse = True)
-  print(sorted_matches[0])
+  return sorted_matches[0]
 
-
-
-def print_popularity_count():
-  popularities = count_popularity(parse_responses_dict())
+def format_popularity_count():
+  output = ""
+  popularities = count_popularity(parse_responses_dict("responses.txt"))
   sorted_popularities = sorted(popularities.items(), key = lambda x : x[1], reverse = True)
   for item, count in sorted_popularities:
-    print(item, count)
+    output += item + count
+  return output
 
 
 
-print_popularity_count()
-#print_top_3_matches()
-#print_best_match()
+#print(format_popularity_count())
+#print(format_top_3_matches())
+#print(get_best_match())
+print(format_best_matches())
+output_results("results.txt")

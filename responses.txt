@@ -29,3 +29,8 @@ Rice, Black Beans, Steak, Cheese, Lettuce, Corn, Pico De Gallo, Sour Cream	Caleb
 Rice, Black Beans, Chicken, Carnitas, Veggies, Cheese, Lettuce, Pico De Gallo, Mild Salsa, Guac, Sour Cream	Ed Dowling
 Rice, Steak, Cheese, Pico De Gallo, Hot Salsa	Vladimir 
 Pinto Beans, Carnitas, Cheese, Hot Salsa	Dominic Rutkowski
+Rice, Black Beans, Steak, Corn, Pico De Gallo, Hot Salsa, Jalapenos, Sour Cream	Nathan Deyak
+Rice, Black Beans, Tofusada, Queso, Veggies, Cheese, Corn, Mild Salsa, Sour Cream	Sanmati Thangavel
+Rice, Black Beans, Steak, Cheese, Medium Salsa, Sour Cream	Caleb Peters
+Rice, Black Beans, Steak, Tofusada, Queso, Cheese, Corn, Mild Salsa, Sour Cream	Bernardo Perez
+Rice, Chicken, Queso	Brett Cherry
