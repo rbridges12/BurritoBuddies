@@ -6,8 +6,8 @@ from MatchProfile import MatchProfile
 def match_value(order1, order2):
 
   # split order strings into sets of toppings
-  order_set1 = set(order1.split(", "))
-  order_set2 = set(order2.split(", "))
+  order_set1 = set(order1.strip().split(", "))
+  order_set2 = set(order2.strip().split(", "))
 
   # find intersection and union of the order sets
   intersection = order_set1 & order_set2
@@ -18,15 +18,40 @@ def match_value(order1, order2):
 
 
 
+def match_value_weighted(order1, order2):
+
+   # split order strings into sets of toppings
+  order_set1 = set(order1.strip().split(", "))
+  order_set2 = set(order2.strip().split(", "))
+
+  # find intersection and union of the order sets
+  intersection = order_set1 & order_set2
+  union = order_set1 | order_set2
+
+  similarity = len(intersection)
+  difference = len(union)
+
+  for item, weight in weights.items():
+    if weight == 0:
+      difference -= 1
+    if item in intersection:
+      similarity += weight - 1
+    else:
+      difference += weight - 1
+
+  return similarity / difference
+
+
+
 # finds the given order's best match in other_orders
 # returns a tuple (match name, match value)
 # params are order: string, other_orders: dictionary {name : order}
-def find_match(order, other_orders):
+def find_match(order, other_orders, similarity_function):
 
   # make a dictionary of all other names and their match values
   match_dict = {}
   for name, other_order in other_orders.items():
-    match_dict[name] = match_value(order, other_order)
+    match_dict[name] = similarity_function(order, other_order)
   
   # find the max match value
   max = -1
@@ -53,7 +78,7 @@ def find_matches_reverseorder(orders):
     
     # remove the last item from the dict and find its match
     name, order = orders.popitem()
-    match_name, match_val = find_match(order, orders)
+    match_name, match_val = find_match(order, orders, match_value)
 
     # add match to matches and remove the matched name from the dict
     matches.append((name, match_name, match_val))
@@ -64,7 +89,8 @@ def find_matches_reverseorder(orders):
 
 # returns a dictionary of all matches bwtween profile and profiles and their match values
 # profiles is a list of all MatchProfiles
-def find_match_dict(profile: MatchProfile, profiles: list) -> dict:
+# similarity_function is a function that takes 2 orders and outputs a similarity value from 0-1
+def find_match_dict(profile: MatchProfile, profiles: list, similarity_function) -> dict:
   match_dict = {}
 
   # iterate through every profile and extract the names and orders of each profile
@@ -74,7 +100,7 @@ def find_match_dict(profile: MatchProfile, profiles: list) -> dict:
     
     # if the name is different than the given profile, add the match to the dictionary
     if profile.get_name() != other_name:
-      match_dict[other_name] = match_value(profile.get_order(), other_order)
+      match_dict[other_name] = similarity_function(profile.get_order(), other_order)
   
   # return the match dictionary
   return match_dict
@@ -84,15 +110,16 @@ def find_match_dict(profile: MatchProfile, profiles: list) -> dict:
 # find the specified number of top matches for each profile
 # profiles: a list of all profiles
 # num_top_matches: the number of top matches desired
+# similarity_function: function that takes 2 orders and returns a similarity value from 0-1
 # returns a list of profiles with top_matches defined
-def find_top_matches(profiles: list, num_top_matches: int) -> list:
+def find_top_matches(profiles: list, num_top_matches: int, similarity_function) -> list:
   match_profiles = []
 
   # iterate through each profile
   for profile in profiles:
 
     # get a dictionary containing all the matches for the profile
-    match_dict = find_match_dict(profile, profiles)
+    match_dict = find_match_dict(profile, profiles, similarity_function)
 
     # get a list of tuples containing the data from match_dict sorted by match value in descending order
     sorted_matches = sorted(match_dict.items(), key = lambda x : x[1], reverse = True)
@@ -199,7 +226,7 @@ def format_best_matches():
 
 def format_top_3_matches():
   output = ""
-  for profile in find_top_matches(dict_to_profiles(parse_responses_dict("responses.txt")), 3):
+  for profile in find_top_matches(dict_to_profiles(parse_responses_dict("responses.txt")), 3, match_value_weighted):
     output += "%s's top 3 matches:" % profile.get_name() + "\n"
     matches = profile.get_top_matches()
     output += "\t1:" + "%s, %d%% match"% (matches[0][0], round(matches[0][1]*100, ndigits = 1)) + "\n"
@@ -210,7 +237,7 @@ def format_top_3_matches():
 
 def get_best_match():
   matches = []
-  for profile in find_top_matches(dict_to_profiles(parse_responses_dict("responses.txt")), 3):
+  for profile in find_top_matches(dict_to_profiles(parse_responses_dict("responses.txt")), 3, match_value):
     top_matches = profile.get_top_matches()
     matches.append((profile.get_name(), top_matches[0][0], round(top_matches[0][1] * 100, ndigits = 1)))
   sorted_matches = sorted(matches, key = lambda x : x[2], reverse = True)
@@ -226,8 +253,10 @@ def format_popularity_count():
 
 
 
+weights = {"Rice" : 1, "Black Beans" : 1, "Pinto Beans" : 1, "Chicken" : 1, "Steak" : 1, "Carnitas" : 1, "Tofusada" : 1, "Queso" : 1, "Extra Queso" : 1, "Veggies" : 1, "Cheese" : 1, "Lettuce" : 1, "Corn" : 1, "Pico De Gallo" : 1, "Mild Salsa" : 1, "Medium Salsa" : 1, "Hot Salsa" : 1, "Jalapenos" : 1, "Guac" : 1, "Sour Cream" : 1}
+
 #print(format_popularity_count())
 #print(format_top_3_matches())
-#print(get_best_match())
+print(get_best_match())
 print(format_best_matches())
 output_results("results.txt")
