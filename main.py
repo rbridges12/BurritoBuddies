@@ -253,7 +253,7 @@ def format_popularity_count():
 
 
 
-weights = {"Rice" : 1, "Black Beans" : 1, "Pinto Beans" : 1, "Chicken" : 1, "Steak" : 1, "Carnitas" : 1, "Tofusada" : 1, "Queso" : 1, "Extra Queso" : 1, "Veggies" : 1, "Cheese" : 1, "Lettuce" : 1, "Corn" : 1, "Pico De Gallo" : 1, "Mild Salsa" : 1, "Medium Salsa" : 1, "Hot Salsa" : 1, "Jalapenos" : 1, "Guac" : 1, "Sour Cream" : 1}
+weights = {"Rice" : 1, "Black Beans" : 2, "Pinto Beans" : 2, "Chicken" : 1, "Steak" : 1, "Carnitas" : 1, "Tofusada" : 2, "Queso" : 2, "Extra Queso" : 4, "Veggies" : 1, "Cheese" : 1, "Lettuce" : 1, "Corn" : 1, "Pico De Gallo" : 0.5, "Mild Salsa" : 0.5, "Medium Salsa" : 0.5, "Hot Salsa" : 0.5, "Jalapenos" : 1, "Guac" : 2, "Sour Cream" : 2}
 
 #print(format_popularity_count())
 #print(format_top_3_matches())
