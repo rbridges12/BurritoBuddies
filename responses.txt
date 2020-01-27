@@ -2,10 +2,10 @@ Rice, Chicken, Queso, Cheese, Corn, Pico De Gallo, Sour Cream	Julian Wemmie
 Rice, Pinto Beans, Chicken, Queso, Extra Queso, Veggies, Hot Salsa	Julien Cook
 Rice, Black Beans, Tofusada, Queso, Cheese, Mild Salsa	Olivia Barker
 Rice, Black Beans, Steak, Cheese, Lettuce, Corn, Pico De Gallo, Mild Salsa, Sour Cream	Tommy Stevens
-Rice, Black Beans, Chicken, Queso, Cheese, Pico De Gallo, Medium Salsa	chris kim
+Rice, Black Beans, Chicken, Queso, Cheese, Pico De Gallo, Salsa Verde (Medium)	chris kim
 Rice, Black Beans, Chicken, Veggies, Cheese, Pico De Gallo, Mild Salsa, Guac	Raymond Yang
 Rice, Tofusada, Veggies, Lettuce, Corn, Pico De Gallo	Mohan Kumar
-Rice, Pinto Beans, Chicken, Veggies, Corn, Pico De Gallo, Medium Salsa, Hot Salsa, Jalapenos, Guac	Nikul Patel
+Rice, Pinto Beans, Chicken, Veggies, Corn, Pico De Gallo, Salsa Verde (Medium), Hot Salsa, Jalapenos, Guac	Nikul Patel
 Rice	alex wang
 Rice, Black Beans, Pinto Beans, Tofusada, Corn, Pico De Gallo, Mild Salsa, Sour Cream	ken wilbur
 Rice, Black Beans, Pinto Beans, Chicken, Steak, Queso, Extra Queso, Veggies, Cheese, Lettuce, Corn, Pico De Gallo, Hot Salsa, Guac, Sour Cream	Wylan Gao
@@ -14,16 +14,16 @@ Rice, Carnitas, Queso, Extra Queso, Veggies, Lettuce, Mild Salsa, Guac	KevinLu
 Rice, Black Beans, Carnitas, Queso, Veggies, Cheese, Corn, Pico De Gallo, Guac	Julia Bernat
 Rice, Black Beans, Chicken, Queso, Extra Queso, Cheese	Emma Grace Shopp
 Rice, Carnitas, Veggies, Pico De Gallo, Hot Salsa, Jalapenos	Mason Carter
-Rice, Black Beans, Chicken, Queso, Cheese, Lettuce, Corn, Pico De Gallo, Medium Salsa, Sour Cream	Erin Netolicky 
-Rice, Black Beans, Steak, Cheese, Corn, Pico De Gallo, Medium Salsa	Nathaniel Nelson
-Rice, Black Beans, Steak, Carnitas, Cheese, Pico De Gallo, Medium Salsa, Guac, Sour Cream	Dylan Philibert
-Rice, Black Beans, Chicken, Cheese, Corn, Pico De Gallo, Mild Salsa, Medium Salsa, Sour Cream	Lorena Tran
+Rice, Black Beans, Chicken, Queso, Cheese, Lettuce, Corn, Pico De Gallo, Salsa Verde (Medium), Sour Cream	Erin Netolicky 
+Rice, Black Beans, Steak, Cheese, Corn, Pico De Gallo, Salsa Verde (Medium)	Nathaniel Nelson
+Rice, Black Beans, Steak, Carnitas, Cheese, Pico De Gallo, Salsa Verde (Medium), Guac, Sour Cream	Dylan Philibert
+Rice, Black Beans, Chicken, Cheese, Corn, Pico De Gallo, Mild Salsa, Salsa Verde (Medium), Sour Cream	Lorena Tran
 Rice, Chicken	Jared
 Rice, Black Beans, Steak, Queso, Veggies, Corn, Mild Salsa, Sour Cream	Chen-You
 Rice, Black Beans, Chicken, Pico De Gallo, Sour Cream	Ethan D'Alessandro
 Rice, Black Beans, Steak, Cheese, Hot Salsa, Guac	Alexander Nelson
 Rice, Carnitas, Cheese, Pico De Gallo, Guac	Riley Bridges
-Rice, Black Beans, Steak, Cheese, Corn, Medium Salsa	Daniel Song
+Rice, Black Beans, Steak, Cheese, Corn, Salsa Verde (Medium)	Daniel Song
 Rice, Black Beans, Chicken, Queso, Corn, Mild Salsa, Sour Cream	Kaushik Raghavan
 Rice, Black Beans, Steak, Cheese, Lettuce, Corn, Pico De Gallo, Sour Cream	Caleb Kwok
 Rice, Black Beans, Chicken, Carnitas, Veggies, Cheese, Lettuce, Pico De Gallo, Mild Salsa, Guac, Sour Cream	Ed Dowling
@@ -31,6 +31,14 @@ Rice, Steak, Cheese, Pico De Gallo, Hot Salsa	Vladimir
 Pinto Beans, Carnitas, Cheese, Hot Salsa	Dominic Rutkowski
 Rice, Black Beans, Steak, Corn, Pico De Gallo, Hot Salsa, Jalapenos, Sour Cream	Nathan Deyak
 Rice, Black Beans, Tofusada, Queso, Veggies, Cheese, Corn, Mild Salsa, Sour Cream	Sanmati Thangavel
-Rice, Black Beans, Steak, Cheese, Medium Salsa, Sour Cream	Caleb Peters
+Rice, Black Beans, Steak, Cheese, Salsa Verde (Medium), Sour Cream	Caleb Peters
 Rice, Black Beans, Steak, Tofusada, Queso, Cheese, Corn, Mild Salsa, Sour Cream	Bernardo Perez
 Rice, Chicken, Queso	Brett Cherry
+Rice, Black Beans, Carnitas, Queso, Cheese, Pico De Gallo, Mild Salsa	Matt Harding
+Rice, Black Beans, Tofusada, Queso, Cheese, Lettuce, Corn	Emily Hill 
+Rice, Black Beans, Tofusada, Veggies, Lettuce, Corn, Pico De Gallo, Guac	Natalie Dunlap
+Rice, Black Beans, Chicken, Corn, Pico De Gallo, Guac	Lila Terry
+Rice, Black Beans, Tofusada, Veggies, Lettuce, Corn, Guac, Sour Cream	Leah Rietz
+Rice, Black Beans, Chicken, Queso, Veggies, Corn, Hot Salsa	Kareem Shoukih
+Rice, Black Beans, Chicken, Queso, Cheese, Lettuce, Corn, Pico De Gallo, Salsa Verde (Medium), Guac, Sour Cream	Kyle Chi
+Rice, Black Beans, Carnitas, Queso, Veggies, Cheese, Lettuce, Guac, Sour Cream	Jake Steffens
