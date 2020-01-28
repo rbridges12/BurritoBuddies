@@ -1,5 +1,13 @@
+# Riley Bridges
+
 from collections import defaultdict
 from MatchProfile import MatchProfile
+
+INPUT_FILE = "responses.txt"
+OUTPUT_FILE = "results.txt"
+NUM_TOP_MATCHES = 3
+
+WEIGHTS = {"Rice" : 1, "Black Beans" : 2, "Pinto Beans" : 2, "Chicken" : 1, "Steak" : 1, "Carnitas" : 1, "Tofusada" : 2, "Queso" : 2, "Extra Queso" : 4, "Veggies" : 1, "Cheese" : 1, "Lettuce" : 1, "Corn" : 1, "Pico De Gallo" : 0.5, "Mild Salsa" : 0.5, "Medium Salsa" : 0.5, "Hot Salsa" : 0.5, "Jalapenos" : 1, "Guac" : 2, "Sour Cream" : 2}
 
 # returns a number from 0 to 1 describing the match between the 
 # two given orders, where 0 is a bad match and 1 is a perfect match
@@ -18,6 +26,10 @@ def match_value(order1, order2):
 
 
 
+# returns a number from 0 to 1 describing the match between the 
+# two given orders, where 0 is a bad match and 1 is a perfect match
+# toppings are given different importances when deciding the match value, provided by the weights list
+# TODO: fix weighting, currently produces >100% matches
 def match_value_weighted(order1, order2):
 
    # split order strings into sets of toppings
@@ -31,7 +43,7 @@ def match_value_weighted(order1, order2):
   similarity = len(intersection)
   difference = len(union)
 
-  for item, weight in weights.items():
+  for item, weight in WEIGHTS.items():
     if weight == 0:
       difference -= 1
     if item in intersection:
@@ -46,7 +58,7 @@ def match_value_weighted(order1, order2):
 # finds the given order's best match in other_orders
 # returns a tuple (match name, match value)
 # params are order: string, other_orders: dictionary {name : order}
-def find_match(order, other_orders, similarity_function):
+def find_bidirectional_match(order, other_orders, similarity_function):
 
   # make a dictionary of all other names and their match values
   match_dict = {}
@@ -66,11 +78,11 @@ def find_match(order, other_orders, similarity_function):
 
 
 
-# finds the best matches in the orders list, prioritizing ideal
+# finds the 
 # matches for orders at the end of the list
 # returns a list of tuples (name1, name2, match value)
 # param is orders: dictionary {name : order}
-def find_matches_reverseorder(orders):
+def find_bidirectional_matches_reverseorder(orders) -> list:
   matches = []
 
   # repeat until <2 left to assure a match can be made
@@ -78,7 +90,7 @@ def find_matches_reverseorder(orders):
     
     # remove the last item from the dict and find its match
     name, order = orders.popitem()
-    match_name, match_val = find_match(order, orders, match_value)
+    match_name, match_val = find_bidirectional_match(order, orders, match_value)
 
     # add match to matches and remove the matched name from the dict
     matches.append((name, match_name, match_val))
@@ -87,10 +99,25 @@ def find_matches_reverseorder(orders):
 
 
 
-# returns a dictionary of all matches bwtween profile and profiles and their match values
+# returns a string of formatted bidirectional matches
+def format_bidirectional_matches() -> str:
+
+  # headings
+  output = "Person 1\t\tPerson2\t\t% Match\n"
+
+  # matches
+  for p1, p2, match_val in find_bidirectional_matches_reverseorder(parse_responses(INPUT_FILE)):
+    output += "%s\t%s\t%.1f\n" %(p1, p2, match_val*100)
+
+  return output
+
+
+
+# returns a dictionary of all matches between profile and profiles and their match values
 # profiles is a list of all MatchProfiles
 # similarity_function is a function that takes 2 orders and outputs a similarity value from 0-1
-def find_match_dict(profile: MatchProfile, profiles: list, similarity_function) -> dict:
+def get_match_dict(profile: MatchProfile, profiles: list, similarity_function) -> dict:
+
   match_dict = {}
 
   # iterate through every profile and extract the names and orders of each profile
@@ -119,12 +146,11 @@ def find_top_matches(profiles: list, num_top_matches: int, similarity_function) 
   for profile in profiles:
 
     # get a dictionary containing all the matches for the profile
-    match_dict = find_match_dict(profile, profiles, similarity_function)
+    match_dict = get_match_dict(profile, profiles, similarity_function)
 
     # get a list of tuples containing the data from match_dict sorted by match value in descending order
     sorted_matches = sorted(match_dict.items(), key = lambda x : x[1], reverse = True)
     
-    # empty list for top matches
     top_matches = []
 
     # make sure the specified number of top matches <= number of possible matches
@@ -146,10 +172,41 @@ def find_top_matches(profiles: list, num_top_matches: int, similarity_function) 
 
 
 
+# returns a formatted string of every person's top matches
+def format_top_matches():
+  output = ""
+
+  # get the profiles with matches from the responses file
+  profiles = find_top_matches(dict_to_profiles(parse_responses(INPUT_FILE)), NUM_TOP_MATCHES, match_value)
+
+  for profile in profiles:
+
+    # person's header
+    output += "%s's top 3 matches:\n" % profile.get_name()
+
+    # the person's matches in sequential order
+    matches = profile.get_top_matches()
+    for i in range(len(matches)):
+      output += "\t%d: %s, %.1f%% match\n"% (i + 1, matches[i][0], matches[i][1]*100)
+    
+    # separator newline
+    output += "\n"
+  return output
+
+
+
+# writes the top 3 results to a file
+def output_results(file_name):
+
+  # open the file and write the top 3 to it
+  with open(file_name, mode = 'w') as f:
+    f.write(format_top_matches())
+
+
 
 # parse responses from responses.txt (text file containing tab separated values of 2 columns of desired data)
 # returns dictionary {name : order}
-def parse_responses_dict(file_name) -> dict:
+def parse_responses(file_name) -> dict:
   response_dict = {}
 
   # open responses.txt in read mode
@@ -207,50 +264,28 @@ def count_topping_popularity(response_dict):
 
 
 
-# writes the top 3 results to a file
-def output_results(file_name):
-
-  # open the file and write the top 3 to it
-  with open(file_name, mode = 'w') as f:
-    f.write(format_top_3_matches())
-
-
-
-# 
-def format_best_matches():
-  output = ""
-  output += "Person 1\t\t\tPerson2\t\t\t% Match\n"
-  for p1, p2, match_val in find_matches_reverseorder(parse_responses_dict("responses.txt")):
-    output += p1 + "\t" + p2 + "\t" + str(round(match_val*100, ndigits = 2)) + "\n"
+# TODO: comments
+def format_topping_popularity_count():
+  output = "\n\n"
+  popularities = count_topping_popularity(parse_responses(INPUT_FILE))
+  sorted_popularities = sorted(popularities.items(), key = lambda x : x[1], reverse = True)
+  # TODO: add ranking numbers 1-n for toppings
+  for topping, count in sorted_popularities:
+    output +=  "%s: %d\n" %(topping, count)
   return output
 
-def format_top_3_matches():
-  output = ""
-  for profile in find_top_matches(dict_to_profiles(parse_responses_dict("responses.txt")), 3, match_value):
-    output += "%s's top 3 matches:" % profile.get_name() + "\n"
-    matches = profile.get_top_matches()
-    output += "\t1:" + "%s, %d%% match"% (matches[0][0], round(matches[0][1]*100, ndigits = 1)) + "\n"
-    output += "\t2:" + "%s, %d%% match"% (matches[1][0], round(matches[1][1]*100, ndigits = 1)) + "\n"
-    output += "\t3:" + "%s, %d%% match"% (matches[2][0], round(matches[2][1]*100, ndigits = 1)) + "\n"
-    output += "\n"
-  return output
 
+
+
+# TODO: comments
 def get_best_match():
   matches = []
-  for profile in find_top_matches(dict_to_profiles(parse_responses_dict("responses.txt")), 3, match_value):
+  for profile in find_top_matches(dict_to_profiles(parse_responses(INPUT_FILE)), 3, match_value):
     top_matches = profile.get_top_matches()
     matches.append((profile.get_name(), top_matches[0][0], round(top_matches[0][1] * 100, ndigits = 1)))
   sorted_matches = sorted(matches, key = lambda x : x[2], reverse = True)
   return sorted_matches[0]
 
-def format_topping_popularity_count():
-  output = ""
-  popularities = count_topping_popularity(parse_responses_dict("responses.txt"))
-  sorted_popularities = sorted(popularities.items(), key = lambda x : x[1], reverse = True)
-  for item, count in sorted_popularities:
-    output += item + count
-  return output
 
 
-
-weights = {"Rice" : 1, "Black Beans" : 2, "Pinto Beans" : 2, "Chicken" : 1, "Steak" : 1, "Carnitas" : 1, "Tofusada" : 2, "Queso" : 2, "Extra Queso" : 4, "Veggies" : 1, "Cheese" : 1, "Lettuce" : 1, "Corn" : 1, "Pico De Gallo" : 0.5, "Mild Salsa" : 0.5, "Medium Salsa" : 0.5, "Hot Salsa" : 0.5, "Jalapenos" : 1, "Guac" : 2, "Sour Cream" : 2}
+# TODO: add 3 worst matches
