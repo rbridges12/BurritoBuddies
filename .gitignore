@@ -130,3 +130,7 @@ dmypy.json
 
 # Repl.it
 .replit
+
+# For privacy
+responses.txt
+results.txt
