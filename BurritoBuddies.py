@@ -9,7 +9,7 @@ NUM_TOP_MATCHES = 3
 
 WEIGHTS = {"Rice" : 1, "Black Beans" : 2, "Pinto Beans" : 2, "Chicken" : 1, "Steak" : 1, "Carnitas" : 1, "Tofusada" : 2, "Queso" : 2, "Extra Queso" : 4, "Veggies" : 1, "Cheese" : 1, "Lettuce" : 1, "Corn" : 1, "Pico De Gallo" : 0.5, "Mild Salsa" : 0.5, "Medium Salsa" : 0.5, "Hot Salsa" : 0.5, "Jalapenos" : 1, "Guac" : 2, "Sour Cream" : 2}
 
-# returns a number from 0 to 1 describing the match between the 
+# returns a number from 0 to 1 describing the match between the
 # two given orders, where 0 is a bad match and 1 is a perfect match
 def match_value(order1, order2):
 
@@ -26,7 +26,7 @@ def match_value(order1, order2):
 
 
 
-# returns a number from 0 to 1 describing the match between the 
+# returns a number from 0 to 1 describing the match between the
 # two given orders, where 0 is a bad match and 1 is a perfect match
 # toppings are given different importances when deciding the match value, provided by the weights list
 # TODO: fix weighting, currently produces >100% matches
@@ -64,21 +64,21 @@ def find_bidirectional_match(order, other_orders, similarity_function):
   match_dict = {}
   for name, other_order in other_orders.items():
     match_dict[name] = similarity_function(order, other_order)
-  
+
   # find the max match value
   max = -1
   max_name = ""
   for name, match_val in match_dict.items():
-    if match_val > max: 
+    if match_val > max:
       max = match_val
       max_name = name
-  
+
   # return the max match value with the associated name
   return (max_name, max)
 
 
 
-# finds the 
+# finds the
 # matches for orders at the end of the list
 # returns a list of tuples (name1, name2, match value)
 # param is orders: dictionary {name : order}
@@ -87,7 +87,7 @@ def find_bidirectional_matches_reverseorder(orders) -> list:
 
   # repeat until <2 left to assure a match can be made
   while len(orders) >= 2:
-    
+
     # remove the last item from the dict and find its match
     name, order = orders.popitem()
     match_name, match_val = find_bidirectional_match(order, orders, match_value)
@@ -124,11 +124,11 @@ def get_match_dict(profile: MatchProfile, profiles: list, similarity_function) -
   for other_profile in profiles:
     other_name = other_profile.get_name()
     other_order = other_profile.get_order()
-    
+
     # if the name is different than the given profile, add the match to the dictionary
     if profile.get_name() != other_name:
       match_dict[other_name] = similarity_function(profile.get_order(), other_order)
-  
+
   # return the match dictionary
   return match_dict
 
@@ -150,23 +150,23 @@ def find_top_matches(profiles: list, num_top_matches: int, similarity_function) 
 
     # get a list of tuples containing the data from match_dict sorted by match value in descending order
     sorted_matches = sorted(match_dict.items(), key = lambda x : x[1], reverse = True)
-    
+
     top_matches = []
 
     # make sure the specified number of top matches <= number of possible matches
     if num_top_matches > len(sorted_matches):
       num_top_matches = len(sorted_matches)
-    
+
     # add the specified number of top matches to the list
     for i in range(num_top_matches):
       top_matches.append(sorted_matches[i])
-    
+
     # add the list to the profile as its top_matches variable
     profile.set_top_matches(top_matches)
 
     # add the profile to the output list
     match_profiles.append(profile)
-  
+
   # return the list of profiles
   return match_profiles
 
@@ -188,7 +188,7 @@ def format_top_matches():
     matches = profile.get_top_matches()
     for i in range(len(matches)):
       output += "\t%d: %s, %.1f%% match\n"% (i + 1, matches[i][0], matches[i][1]*100)
-    
+
     # separator newline
     output += "\n"
   return output
@@ -222,8 +222,11 @@ def parse_responses(file_name) -> dict:
 
       # add name and order to dictionary
       response_dict[name] = order
-  return response_dict    
 
+  # if file is empty, throw an error
+  if len(response_dict) == 0: raise Exception('Input file is empty')
+  
+  return response_dict
 
 
 # convert a dictionary of name, order pairs into a list of profiles
@@ -231,12 +234,12 @@ def dict_to_profiles(dict: dict) -> list:
 
   # empty list for profiles
   profiles = []
-  
+
   # for each name and order, create a new profile and add it to the list
   for name, order in dict.items():
     profile = MatchProfile(name, order)
     profiles.append(profile)
-  
+
   # return the list
   return profiles
 
@@ -255,10 +258,10 @@ def count_topping_popularity(response_dict):
 
     # for each item in the order, remove whitespace from the ends of order and split it into individual items
     for item in order.strip().split(", "):
-      
+
       # increment the items counter
       counter[item] += 1
-  
+
   # return the counter defaultdict converted to a normal dict
   return dict(counter)
 
