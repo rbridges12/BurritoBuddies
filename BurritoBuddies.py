@@ -3,9 +3,8 @@
 from collections import defaultdict
 from MatchProfile import MatchProfile
 
-INPUT_FILE = "responses.txt"
-OUTPUT_FILE = "results.txt"
-NUM_TOP_MATCHES = 3
+input_file = "responses.txt"
+output_file = "results.txt"
 
 WEIGHTS = {"Rice" : 1, "Black Beans" : 2, "Pinto Beans" : 2, "Chicken" : 1, "Steak" : 1, "Carnitas" : 1, "Tofusada" : 2, "Queso" : 2, "Extra Queso" : 4, "Veggies" : 1, "Cheese" : 1, "Lettuce" : 1, "Corn" : 1, "Pico De Gallo" : 0.5, "Mild Salsa" : 0.5, "Medium Salsa" : 0.5, "Hot Salsa" : 0.5, "Jalapenos" : 1, "Guac" : 2, "Sour Cream" : 2}
 
@@ -106,7 +105,7 @@ def format_bidirectional_matches() -> str:
   output = "Person 1\t\tPerson2\t\t% Match\n"
 
   # matches
-  for p1, p2, match_val in find_bidirectional_matches_reverseorder(parse_responses(INPUT_FILE)):
+  for p1, p2, match_val in find_bidirectional_matches_reverseorder(parse_responses(input_file)):
     output += "%s\t%s\t%.1f\n" %(p1, p2, match_val*100)
 
   return output
@@ -173,11 +172,11 @@ def find_top_matches(profiles: list, num_top_matches: int, similarity_function) 
 
 
 # returns a formatted string of every person's top matches
-def format_top_matches():
+def format_top_matches(num_top_matches):
   output = ""
 
   # get the profiles with matches from the responses file
-  profiles = find_top_matches(dict_to_profiles(parse_responses(INPUT_FILE)), NUM_TOP_MATCHES, match_value)
+  profiles = find_top_matches(dict_to_profiles(parse_responses(input_file)), num_top_matches, match_value)
 
   for profile in profiles:
 
@@ -195,12 +194,12 @@ def format_top_matches():
 
 
 
-# writes the top 3 results to a file
-def output_results(file_name):
+# writes the top results to a file
+def output_results(num_top_matches):
 
-  # open the file and write the top 3 to it
-  with open(file_name, mode = 'w') as f:
-    f.write(format_top_matches())
+  # open the file and write the top results to it
+  with open(output_file, mode = 'w') as f:
+    f.write(format_top_matches(num_top_matches))
 
 
 
@@ -225,7 +224,7 @@ def parse_responses(file_name) -> dict:
 
   # if file is empty, throw an error
   if len(response_dict) == 0: raise Exception('Input file is empty')
-  
+
   return response_dict
 
 
@@ -270,7 +269,7 @@ def count_topping_popularity(response_dict):
 # TODO: comments
 def format_topping_popularity_count():
   output = "\n\n"
-  popularities = count_topping_popularity(parse_responses(INPUT_FILE))
+  popularities = count_topping_popularity(parse_responses(input_file))
   sorted_popularities = sorted(popularities.items(), key = lambda x : x[1], reverse = True)
   # TODO: add ranking numbers 1-n for toppings
   for topping, count in sorted_popularities:
@@ -283,7 +282,7 @@ def format_topping_popularity_count():
 # TODO: comments
 def get_best_match():
   matches = []
-  for profile in find_top_matches(dict_to_profiles(parse_responses(INPUT_FILE)), 3, match_value):
+  for profile in find_top_matches(dict_to_profiles(parse_responses(input_file)), 3, match_value):
     top_matches = profile.get_top_matches()
     matches.append((profile.get_name(), top_matches[0][0], round(top_matches[0][1] * 100, ndigits = 1)))
   sorted_matches = sorted(matches, key = lambda x : x[2], reverse = True)
