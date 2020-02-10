@@ -112,10 +112,12 @@ def format_bidirectional_matches() -> str:
 
 
 
-# returns a dictionary of all matches between profile and profiles and their match values
+# returns a dictionary of all matches between profile and profiles and their match values:
+# {name : match_value, ...}
+# profile is the MatchProfile to find matches for
 # profiles is a list of all MatchProfiles
 # similarity_function is a function that takes 2 orders and outputs a similarity value from 0-1
-def get_match_dict(profile: MatchProfile, profiles: list, similarity_function) -> dict:
+def get_match_dict(profile, profiles, similarity_function) -> dict:
 
   match_dict = {}
 
@@ -135,11 +137,18 @@ def get_match_dict(profile: MatchProfile, profiles: list, similarity_function) -
 
 # find the specified number of top matches for each profile
 # profiles: a list of all profiles
-# num_top_matches: the number of top matches desired
+# num_top_matches: the number of top matches desired, or if negative, the number of bottom matches desired
 # similarity_function: function that takes 2 orders and returns a similarity value from 0-1
 # returns a list of profiles with top_matches defined
-def find_top_matches(profiles: list, num_top_matches: int, similarity_function) -> list:
+def find_top_matches(profiles, num_top_matches, similarity_function) -> list:
+
   match_profiles = []
+
+  # if num_top_matches is negative, list will be sorted in ascending order
+  reverse = num_top_matches > 0
+
+  # make num_top_matches positive so it works with the for loop
+  num_top_matches = abs(num_top_matches)
 
   # iterate through each profile
   for profile in profiles:
@@ -147,8 +156,10 @@ def find_top_matches(profiles: list, num_top_matches: int, similarity_function) 
     # get a dictionary containing all the matches for the profile
     match_dict = get_match_dict(profile, profiles, similarity_function)
 
-    # get a list of tuples containing the data from match_dict sorted by match value in descending order
-    sorted_matches = sorted(match_dict.items(), key = lambda x : x[1], reverse = True)
+    # get a list of tuples containing the data from match_dict sorted by match value
+    # if num_top_matches was positive, make the list in descending order to get top matches
+    # if num_top_matches was negative, make the list in ascending order to get the worst matches
+    sorted_matches = sorted(match_dict.items(), key = lambda x : x[1], reverse = reverse)
 
     top_matches = []
 
@@ -173,15 +184,19 @@ def find_top_matches(profiles: list, num_top_matches: int, similarity_function) 
 
 # returns a formatted string of every person's top matches
 def format_top_matches(num_top_matches):
+
   output = ""
+
+  # determine whether the match_type is top or worst
+  match_type = "top" if (num_top_matches >= 0) else "worst"
 
   # get the profiles with matches from the responses file
   profiles = find_top_matches(dict_to_profiles(parse_responses(input_file)), num_top_matches, match_value)
 
   for profile in profiles:
 
-    # person's header
-    output += "%s's top 3 matches:\n" % profile.get_name()
+    # person's header, "top matches" if num_top_matches is positive, "worst matches" if negative
+    output += "%s's %s 3 matches:\n" %(profile.get_name(), match_type)
 
     # the person's matches in sequential order
     matches = profile.get_top_matches()
