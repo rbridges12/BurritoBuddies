@@ -127,7 +127,8 @@ def get_match_dict(profile, profiles, similarity_function) -> dict:
     other_order = other_profile.get_order()
 
     # if the name is different than the given profile, add the match to the dictionary
-    if profile.get_name() != other_name:
+    # both names are made lowercase and the spaces are removed to ensure only names are compared
+    if profile.get_name().replace(" ", "").lower() != other_name.replace(" ", "").lower():
       match_dict[other_name] = similarity_function(profile.get_order(), other_order)
 
   # return the match dictionary
