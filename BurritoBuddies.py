@@ -236,6 +236,7 @@ def parse_responses(file_name) -> dict:
       name = items[1].rstrip()
 
       # add name and order to dictionary
+      # will prevent duplicate profiles if people fill out form twice
       response_dict[name] = order
 
   # if file is empty, throw an error
@@ -303,7 +304,3 @@ def get_best_match():
     matches.append((profile.get_name(), top_matches[0][0], round(top_matches[0][1] * 100, ndigits = 1)))
   sorted_matches = sorted(matches, key = lambda x : x[2], reverse = True)
   return sorted_matches[0]
-
-
-
-# TODO: add 3 worst matches
