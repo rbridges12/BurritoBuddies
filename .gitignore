@@ -132,5 +132,4 @@ dmypy.json
 .replit
 
 # For privacy
-responses.txt
-results.txt
+.txt

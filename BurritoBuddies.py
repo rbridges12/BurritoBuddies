@@ -61,7 +61,8 @@ def find_bidirectional_match(order, other_orders, similarity_function):
 
   # make a dictionary of all other names and their match values
   match_dict = {}
-  for name, other_order in other_orders.items():
+  for name, data in other_orders.items():
+    other_order = data[1]
     match_dict[name] = similarity_function(order, other_order)
 
   # find the max match value
@@ -76,7 +77,7 @@ def find_bidirectional_match(order, other_orders, similarity_function):
   return (max_name, max)
 
 
-
+# TODO: update docs for new dictionary format or update function to use profiles instead of dict
 # finds the
 # matches for orders at the end of the list
 # returns a list of tuples (name1, name2, match value)
@@ -88,7 +89,8 @@ def find_bidirectional_matches_reverseorder(orders) -> list:
   while len(orders) >= 2:
 
     # remove the last item from the dict and find its match
-    name, order = orders.popitem()
+    name, data = orders.popitem()
+    order = data[1]
     match_name, match_val = find_bidirectional_match(order, orders, match_value)
 
     # add match to matches and remove the matched name from the dict
@@ -197,7 +199,7 @@ def format_top_matches(num_top_matches):
   for profile in profiles:
 
     # person's header, "top matches" if num_top_matches is positive, "worst matches" if negative
-    output += "%s's %s 3 matches:\n" %(profile.get_name(), match_type)
+    output += "%s's %s %d matches:\n" %(profile.get_name(), match_type, num_top_matches)
 
     # the person's matches in sequential order
     matches = profile.get_top_matches()
@@ -220,7 +222,7 @@ def output_results(num_top_matches):
 
 
 # parse responses from responses.txt (text file containing tab separated values of 2 columns of desired data)
-# returns dictionary {name : order}
+# returns: a dictionary {name : (email, order), ...}
 def parse_responses(file_name) -> dict:
   response_dict = {}
 
@@ -228,16 +230,22 @@ def parse_responses(file_name) -> dict:
   with open(file_name, "r") as f:
     for line in f:
 
-      # split each line of file into name and order
+      # split line into desired values, raise error if values are missing
       items = line.split("\t")
-      order = items[0]
+      if len(items) < 4: raise Exception('Not enough values provided')
 
-      # remove whitespace from end of name
-      name = items[1].rstrip()
+      email = items[0]
+      fname = items[1]
+      lname = items[2]
+      order = items[3]
 
-      # add name and order to dictionary
+      # combine names after removing potential whitespace
+      name = fname.strip() + " " + lname.strip()
+
+      # add name, order, and email to dictionary
       # will prevent duplicate profiles if people fill out form twice
-      response_dict[name] = order
+      response_dict[name] = (email, order)
+
 
   # if file is empty, throw an error
   if len(response_dict) == 0: raise Exception('Input file is empty')
@@ -245,22 +253,23 @@ def parse_responses(file_name) -> dict:
   return response_dict
 
 
-# convert a dictionary of name, order pairs into a list of profiles
-def dict_to_profiles(dict: dict) -> list:
 
-  # empty list for profiles
+# convert a dictionary of {name : (email, order), ...} to a list of match_profiles
+# response_dict: a dictionary of responses
+# returns: a list of MatchProfiles
+def dict_to_profiles(response_dict):
   profiles = []
 
-  # for each name and order, create a new profile and add it to the list
-  for name, order in dict.items():
-    profile = MatchProfile(name, order)
+  # for each name in the dictionary, create a new profile and add it to the list
+  for name, data in response_dict.items():
+    email, order = data
+    profile = MatchProfile(name, order, email)
     profiles.append(profile)
 
-  # return the list
   return profiles
 
 
-
+# TODO: use profiles instead of response_dict
 # count the number of people who ordered each topping
 # response_dict: a dictionary of name: str, order: str pairs
 # returns a dictionary of {topping: str, popularity: int} pairs
@@ -270,7 +279,7 @@ def count_topping_popularity(response_dict):
   counter = defaultdict(int)
 
   # for each order in the responses
-  for order in response_dict.values():
+  for email, order in response_dict.values():
 
     # for each item in the order, remove whitespace from the ends of order and split it into individual items
     for item in order.strip().split(", "):
@@ -284,6 +293,7 @@ def count_topping_popularity(response_dict):
 
 
 # TODO: comments
+# TODO: use profiles instead of response_dict
 def format_topping_popularity_count():
   output = "\n\n"
   popularities = count_topping_popularity(parse_responses(input_file))
@@ -301,6 +311,7 @@ def get_best_match():
   matches = []
   for profile in find_top_matches(dict_to_profiles(parse_responses(input_file)), 3, match_value):
     top_matches = profile.get_top_matches()
+    if len(top_matches) < 1: raise Exception("Not enough responses for a match")
     matches.append((profile.get_name(), top_matches[0][0], round(top_matches[0][1] * 100, ndigits = 1)))
   sorted_matches = sorted(matches, key = lambda x : x[2], reverse = True)
   return sorted_matches[0]

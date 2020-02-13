@@ -2,9 +2,10 @@
 
 class MatchProfile:
 
-  def __init__(self, name, order, top_matches = []):
+  def __init__(self, name, order, email, top_matches = []):
     self.name = name
     self.order = order
+    self.email = email
     self.top_matches = top_matches
 
   def get_name(self):
@@ -12,6 +13,9 @@ class MatchProfile:
 
   def get_order(self):
     return self.order
+
+  def get_email(self):
+      return self.email
 
   def get_top_matches(self):
     return self.top_matches
