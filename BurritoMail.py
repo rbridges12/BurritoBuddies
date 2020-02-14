@@ -57,20 +57,15 @@ def create_message(sender, to, subject, msgHtml, msgPlain):
     body = {'raw': raw}
     return body
 
+# TODO: allow for worst matches
 def send_results(profiles, sender):
     for profile in profiles:
         to = profile.get_email()
-        subject = "Your Burrito Buddies"
+        subject = "ANOTHER TEST: Burrito Buddies Matchmaking Results"
         msg_html = ""
-        msg_plain = "Your top 10 matches are:/n"
+        num_results = len(profile.get_top_matches())
+        msg_plain = "Dear %s,\n\nYour top %d matches are:\n" % (profile.get_name(), num_results)
         for i, match in enumerate(profile.get_top_matches()):
             msg_plain += "\t%d: %s, %.1f%% match\n" % (i + 1, match[0], match[1] * 100)
-        msg_plain += "\nThanks for participating!\n"
+        msg_plain += "\nWe hope you have a burritoful day!\n"
         send_message(sender, to, subject, msg_html, msg_plain)
-
-def main():
-    sender = "burrito-buddies@burrito-buddies.iam.gserviceaccount.com"
-
-
-if __name__ == '__main__':
-    main()

@@ -7,6 +7,7 @@ input_file = "responses.txt"
 output_file = "results.txt"
 
 WEIGHTS = {"Rice" : 1, "Black Beans" : 2, "Pinto Beans" : 2, "Chicken" : 1, "Steak" : 1, "Carnitas" : 1, "Tofusada" : 2, "Queso" : 2, "Extra Queso" : 4, "Veggies" : 1, "Cheese" : 1, "Lettuce" : 1, "Corn" : 1, "Pico De Gallo" : 0.5, "Mild Salsa" : 0.5, "Medium Salsa" : 0.5, "Hot Salsa" : 0.5, "Jalapenos" : 1, "Guac" : 2, "Sour Cream" : 2}
+match_profiles = []
 
 # returns a number from 0 to 1 describing the match between the
 # two given orders, where 0 is a bad match and 1 is a perfect match
@@ -145,7 +146,7 @@ def get_match_dict(profile, profiles, similarity_function) -> dict:
 # returns a list of profiles with top_matches defined
 def find_top_matches(profiles, num_top_matches, similarity_function) -> list:
 
-  match_profiles = []
+  #match_profiles = []
 
   # if num_top_matches is negative, list will be sorted in ascending order
   reverse = num_top_matches > 0
@@ -199,6 +200,7 @@ def format_top_matches(num_top_matches):
   for profile in profiles:
 
     # person's header, "top matches" if num_top_matches is positive, "worst matches" if negative
+    # TODO: make number of top matches printed decrease if there arent enough profiles
     output += "%s's %s %d matches:\n" %(profile.get_name(), match_type, num_top_matches)
 
     # the person's matches in sequential order
