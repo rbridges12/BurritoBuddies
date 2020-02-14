@@ -133,3 +133,5 @@ dmypy.json
 
 # For privacy
 *.txt
+*.json
+*.pickle
