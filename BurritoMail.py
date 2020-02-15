@@ -61,7 +61,7 @@ def create_message(sender, to, subject, msgHtml, msgPlain):
 def send_results(profiles, sender):
     for profile in profiles:
         to = profile.get_email()
-        subject = "ANOTHER TEST: Burrito Buddies Matchmaking Results"
+        subject = "Burrito Buddies Matchmaking Results"
         msg_html = ""
         num_results = len(profile.get_top_matches())
         msg_plain = "Dear %s,\n\nYour top %d matches are:\n" % (profile.get_name(), num_results)

@@ -311,7 +311,7 @@ def format_topping_popularity_count():
 # TODO: comments
 def get_best_match():
   matches = []
-  for profile in find_top_matches(dict_to_profiles(parse_responses(input_file)), 3, match_value):
+  for profile in match_profiles:
     top_matches = profile.get_top_matches()
     if len(top_matches) < 1: raise Exception("Not enough responses for a match")
     matches.append((profile.get_name(), top_matches[0][0], round(top_matches[0][1] * 100, ndigits = 1)))
