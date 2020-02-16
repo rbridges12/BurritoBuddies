@@ -61,11 +61,12 @@ def create_message(sender, to, subject, msgHtml, msgPlain):
 def send_results(profiles, sender):
     for profile in profiles:
         to = profile.get_email()
-        subject = "Burrito Buddies Matchmaking Results"
-        msg_html = ""
-        num_results = len(profile.get_top_matches())
-        msg_plain = "Dear %s,\n\nYour top %d matches are:\n" % (profile.get_name(), num_results)
-        for i, match in enumerate(profile.get_top_matches()):
-            msg_plain += "\t%d: %s, %.1f%% match\n" % (i + 1, match[0], match[1] * 100)
-        msg_plain += "\nWe hope you have a burritoful day!\n"
-        send_message(sender, to, subject, msg_html, msg_plain)
+        if to != "no_address":
+            subject = "Burrito Buddies Matchmaking Results"
+            msg_html = ""
+            num_results = len(profile.get_top_matches())
+            msg_plain = "Dear %s,\n\nYour top %d matches are:\n" % (profile.get_name(), num_results)
+            for i, match in enumerate(profile.get_top_matches()):
+                msg_plain += "\t%d: %s, %.1f%% match\n" % (i + 1, match[0], match[1] * 100)
+            msg_plain += "\nWe hope you have a burritoful day!\n"
+            send_message(sender, to, subject, msg_html, msg_plain)
