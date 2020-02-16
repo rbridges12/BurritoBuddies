@@ -1,4 +1,6 @@
 # copied from Stack Overflow and slightly edited: https://stackoverflow.com/questions/37201250/sending-email-via-gmail-python
+# module for emailing Burrito Buddies results to participants
+# using the gmail API
 
 import os
 import oauth2client
@@ -70,3 +72,12 @@ def send_results(profiles, sender):
                 msg_plain += "\t%d: %s, %.1f%% match\n" % (i + 1, match[0], match[1] * 100)
             msg_plain += "\nWe hope you have a burritoful day!\n"
             send_message(sender, to, subject, msg_html, msg_plain)
+
+def send_group_msg(profiles, sender, subject, msg):
+    for profile in profiles:
+        to = profile.get_email()
+        if to != "no_address":
+            sub = subject
+            msg_html = ""
+            msg_plain = msg
+            send_message(sender, to, sub, msg_html, msg_plain)

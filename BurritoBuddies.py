@@ -1,4 +1,5 @@
 # Riley Bridges
+# module for finding participants' matches
 
 from collections import defaultdict
 from MatchProfile import MatchProfile

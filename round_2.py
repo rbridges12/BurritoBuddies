@@ -1,4 +1,5 @@
 # Riley Bridges
+# script to send out results to 2nd wave of participants without emailing the first round
 
 def remove_round_1_email_addrs():
     with open("new_responses.txt", mode = "r") as f:

@@ -1,4 +1,5 @@
 # Riley Bridges
+# module/class to represent participants and store their matches and info
 
 class MatchProfile:
 

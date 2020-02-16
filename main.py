@@ -1,4 +1,5 @@
 # Riley Bridges
+# script to read responses and email out all results
 
 import BurritoBuddies
 import BurritoMail
