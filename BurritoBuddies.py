@@ -20,8 +20,8 @@ match_profiles = []
 def match_value(order1, order2):
 
     # split order strings into sets of toppings
-    order_set1 = set(order1.strip().split(", "))
-    order_set2 = set(order2.strip().split(", "))
+    order_set1 = set(order1)
+    order_set2 = set(order2)
 
     # find intersection and union of the order sets
     intersection = order_set1 & order_set2
@@ -241,22 +241,20 @@ def parse_responses(file_name) -> dict:
     with open(file_name, "r") as f:
         for line in f:
 
-            # split line into desired values, raise error if values are missing
+            # parse and unpack items from line, raise error if values are missing
             items = line.split("\t")
             if len(items) < 4:
                 raise Exception('Not enough values provided')
+            email, fname, lname, order = items
 
-            email = items[0]
-            fname = items[1]
-            lname = items[2]
-            order = items[3]
-
-            # combine names after removing potential whitespace
+            # combine first and last name after removing potential whitespace
             name = fname.strip() + " " + lname.strip()
+
+            order_list = order.strip().split(", ")
 
             # add name, order, and email to dictionary
             # will prevent duplicate profiles if people fill out form twice
-            response_dict[name] = (email, order)
+            response_dict[name] = (email, order_list)
 
     # if file is empty, throw an error
     if len(response_dict) == 0:
