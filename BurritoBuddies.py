@@ -27,8 +27,8 @@ def match_value(order1, order2):
     intersection = order_set1 & order_set2
     union = order_set1 | order_set2
 
-    # return the quotient of their sizes
-    return len(intersection) / len(union)
+    # return the rounded quotient of their sizes
+    return round(len(intersection) / len(union), 4)
 
 
 # returns a number from 0 to 1 describing the match between the
