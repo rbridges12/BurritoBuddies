@@ -3,9 +3,11 @@
 
 from collections import defaultdict
 from MatchProfile import MatchProfile
+import json
 
 input_file = "responses.txt"
 output_file = "results.txt"
+output_json_file = "raw_results.json"
 
 WEIGHTS = {"Rice": 1, "Black Beans": 2, "Pinto Beans": 2, "Chicken": 1, "Steak": 1, "Carnitas": 1, "Tofusada": 2, "Queso": 2, "Extra Queso": 4, "Veggies": 1,
            "Cheese": 1, "Lettuce": 1, "Corn": 1, "Pico De Gallo": 0.5, "Mild Salsa": 0.5, "Medium Salsa": 0.5, "Hot Salsa": 0.5, "Jalapenos": 1, "Guac": 2, "Sour Cream": 2}
@@ -188,16 +190,12 @@ def find_top_matches(profiles, num_top_matches, similarity_function) -> list:
 
 
 # returns a formatted string of every person's top matches
-def format_top_matches(num_top_matches):
+def format_top_matches(profiles, num_top_matches):
 
     output = ""
 
     # determine whether the match_type is top or worst
     match_type = "top" if (num_top_matches >= 0) else "worst"
-
-    # get the profiles with matches from the responses file
-    profiles = find_top_matches(dict_to_profiles(
-        parse_responses(input_file)), num_top_matches, match_value)
 
     for profile in profiles:
 
@@ -217,12 +215,21 @@ def format_top_matches(num_top_matches):
     return output
 
 
-# writes the top results to a file
+# writes results to output files
 def output_results(num_top_matches):
+    profiles = find_top_matches(dict_to_profiles(
+        parse_responses(input_file)), num_top_matches, match_value)
 
-    # open the file and write the top results to it
+    # write formatted results to output file
     with open(output_file, mode='w') as f:
-        f.write(format_top_matches(num_top_matches))
+        f.write(format_top_matches(profiles, num_top_matches))
+
+    # write raw results to JSON file
+    with open(output_json_file, mode="w") as f:
+
+        # convert profile objects to dicts so json can encode them
+        profile_dicts = list(map(lambda x: x.__dict__, profiles))
+        json.dump(profile_dicts, f)
 
 
 # parse responses from responses.txt (text file containing tab separated values of 2 columns of desired data)
