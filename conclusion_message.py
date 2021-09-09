@@ -7,16 +7,16 @@ import BurritoMail
 
 
 def send_finale_message():
-    profiles = dict_to_profiles(parse_responses("responses.txt"))
-    sender = "burrito-buddies@burrito-buddies.iam.gserviceaccount.com"
-    subject = "Burrito Buddies Finale and Giveaway Winner"
+  profiles = dict_to_profiles(parse_responses("responses.txt"))
+  sender = "burrito-buddies@burrito-buddies.iam.gserviceaccount.com"
+  subject = "Burrito Buddies Finale and Giveaway Winner"
 
-    with open("finale_msg.txt", mode="r") as f:
-        msg = f.read()
+  with open("finale_msg.txt", mode="r") as f:
+    msg = f.read()
 
-    print(msg)
-    BurritoMail.send_group_msg(profiles, sender, subject, msg)
+  print(msg)
+  BurritoMail.send_group_msg(profiles, sender, subject, msg)
 
 
 if __name__ == "__main__":
-    send_finale_message()
+  send_finale_message()
