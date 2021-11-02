@@ -9,8 +9,8 @@ BurritoBuddies.input_file = "responses.txt"
 
 BurritoBuddies.output_results(10)
 
-# print(BurritoBuddies.format_topping_popularity_count())
-# print(BurritoBuddies.get_best_match())
+print(BurritoBuddies.format_topping_popularity_count())
+print(BurritoBuddies.get_best_match())
 
 # profiles = BurritoBuddies.match_profiles
 # sender = "burrito-buddies@burrito-buddies.iam.gserviceaccount.com"
